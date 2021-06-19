@@ -2,6 +2,7 @@ import '@nomiclabs/hardhat-ethers'
 import '@nomiclabs/hardhat-waffle'
 import '@nomiclabs/hardhat-etherscan'
 import 'hardhat-contract-sizer'
+import 'hardhat-gas-reporter'
 
 import { HardhatUserConfig } from 'hardhat/config'
 
@@ -38,6 +39,10 @@ const config: HardhatUserConfig = {
     kovan: {
       url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
+    bsc_mainnet: {
+      url: "https://bsc-dataseed.binance.org/",
+      chainId: 56
+    }
   },
   etherscan: {
     // Your API key for Etherscan
@@ -51,6 +56,9 @@ const config: HardhatUserConfig = {
         version: "0.4.18"
       },
     ],
+  },
+  gasReporter: {
+    enabled: true,
   },
   contractSizer: {
     alphaSort: false,
