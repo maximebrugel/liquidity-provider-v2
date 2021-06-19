@@ -14,6 +14,10 @@ The contract allows 3 actions :
   
 - `function removeLiquidity(address router, address pair, uint256 amount)`
 <br>Allows to remove liquidity by giving the pair address, the router address and the amount of liquidity you want to remove.
+  
+## Adapters
+
+If you have any errors with routers that change the nomenclature, please check => [adapters](contracts/adapters/adapters.md)
 
 ## Development and Testing
 
