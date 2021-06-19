@@ -213,22 +213,24 @@ describe("LiquidityProviderV2 contract", function () {
     // The owner send 1 tokenA, but addr2 has 0 tokenB
     await testERC20a.transfer(addr2.address, liquidity);
 
-    const test = ethers.utils.parseEther("0.5")
+    const test = ethers.utils.parseEther("0.5");
     await testERC20b.transfer(addr2.address, test);
 
     await testERC20a
-        .connect(addr2)
-        .approve(liquidityProvider.address, initalReserve);
+      .connect(addr2)
+      .approve(liquidityProvider.address, initalReserve);
     await testERC20b
-        .connect(addr2)
-        .approve(liquidityProvider.address, initalReserve);
+      .connect(addr2)
+      .approve(liquidityProvider.address, initalReserve);
 
-    await liquidityProvider.connect(addr2).addLiquidityERC20(
+    await liquidityProvider
+      .connect(addr2)
+      .addLiquidityERC20(
         uniswapRouter.address,
         testERC20a.address,
         testERC20b.address,
         liquidity
-    );
+      );
 
     [reserve0] = await pair.getReserves();
     expect(reserve0.gt(initalReserve)).to.true;
@@ -250,11 +252,21 @@ describe("LiquidityProviderV2 contract", function () {
     await pair.approve(liquidityProvider.address, currentLP);
 
     // Remove half of the liquidity
-    await liquidityProvider.removeLiquidity(uniswapRouter.address, pair.address, currentLP.div(2));
+    await liquidityProvider.removeLiquidity(
+      uniswapRouter.address,
+      pair.address,
+      currentLP.div(2)
+    );
 
-    [reserve0, reserve1] = await pair.getReserves()
-    expect(reserve0.gte(ethers.utils.parseEther("49")) && reserve0.lte(ethers.utils.parseEther("51"))).to.be.true;
-    expect(reserve1.gte(ethers.utils.parseEther("49")) && reserve0.lte(ethers.utils.parseEther("51"))).to.be.true;
+    [reserve0, reserve1] = await pair.getReserves();
+    expect(
+      reserve0.gte(ethers.utils.parseEther("49")) &&
+        reserve0.lte(ethers.utils.parseEther("51"))
+    ).to.be.true;
+    expect(
+      reserve1.gte(ethers.utils.parseEther("49")) &&
+        reserve0.lte(ethers.utils.parseEther("51"))
+    ).to.be.true;
   });
 
   it("Should be able to remove liquidity from A/ETH", async function () {
@@ -270,14 +282,27 @@ describe("LiquidityProviderV2 contract", function () {
 
     let currentLP = await pair.balanceOf(owner.address);
 
-    await pair.approve(liquidityProvider.address, initalReserve.add(initalReserve));
+    await pair.approve(
+      liquidityProvider.address,
+      initalReserve.add(initalReserve)
+    );
 
     // Remove half of the liquidity
-    await liquidityProvider.removeLiquidity(uniswapRouter.address, pair.address, currentLP.div(2));
+    await liquidityProvider.removeLiquidity(
+      uniswapRouter.address,
+      pair.address,
+      currentLP.div(2)
+    );
 
-    [reserve0, reserve1] = await pair.getReserves()
-    expect(reserve0.gte(ethers.utils.parseEther("49")) && reserve0.lte(ethers.utils.parseEther("51"))).to.be.true;
-    expect(reserve1.gte(ethers.utils.parseEther("49")) && reserve0.lte(ethers.utils.parseEther("51"))).to.be.true;
+    [reserve0, reserve1] = await pair.getReserves();
+    expect(
+      reserve0.gte(ethers.utils.parseEther("49")) &&
+        reserve0.lte(ethers.utils.parseEther("51"))
+    ).to.be.true;
+    expect(
+      reserve1.gte(ethers.utils.parseEther("49")) &&
+        reserve0.lte(ethers.utils.parseEther("51"))
+    ).to.be.true;
   });
 
   async function initSpending(receiver) {

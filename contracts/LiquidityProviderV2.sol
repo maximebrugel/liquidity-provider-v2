@@ -79,7 +79,10 @@ contract LiquidityProviderV2 is ILiquidityProviderV2, RouterInteractor {
             amountB
         );
 
-        IERC20Minimal(tokenA).transfer(msg.sender, IERC20Minimal(tokenA).balanceOf(address(this)));
+        IERC20Minimal(tokenA).transfer(
+            msg.sender,
+            IERC20Minimal(tokenA).balanceOf(address(this))
+        );
     }
 
     /// @inheritdoc ILiquidityProviderV2
@@ -250,7 +253,7 @@ contract LiquidityProviderV2 is ILiquidityProviderV2, RouterInteractor {
     /// @return amountAProvided The amount of tokenA provided
     /// @return amountBProvided The amount of tokenB provided
     /// @return liquidity Amount of LP token minted
-    function  _addLiquidityERC20(
+    function _addLiquidityERC20(
         address router,
         address tokenA,
         address tokenB,
