@@ -11,6 +11,7 @@ import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
 import "./abstract/RouterInteractor.sol";
 
 /// @author Maxime Brugel
+/// @title Liquidity provider tasks
 contract LiquidityProviderV2 is ILiquidityProviderV2, RouterInteractor {
     using SafeMath for uint256;
 
@@ -103,36 +104,15 @@ contract LiquidityProviderV2 is ILiquidityProviderV2, RouterInteractor {
         address token0 = IUniswapV2Pair(pair).token0();
         address token1 = IUniswapV2Pair(pair).token1();
 
-        if (token0 == weth) {
-            (amountA, amountB) = IUniswapV2Router02(router).removeLiquidityETH(
-                token1,
-                amount,
-                0,
-                0,
-                msg.sender,
-                block.timestamp
-            );
-        } else if (token1 == weth) {
-            (amountA, amountB) = IUniswapV2Router02(router).removeLiquidity(
-                token0,
-                token1,
-                amount,
-                0,
-                0,
-                msg.sender,
-                block.timestamp
-            );
-        } else {
-            (amountA, amountB) = IUniswapV2Router02(router).removeLiquidity(
-                token0,
-                token1,
-                amount,
-                0,
-                0,
-                msg.sender,
-                block.timestamp
-            );
-        }
+        (amountA, amountB) = IUniswapV2Router02(router).removeLiquidity(
+            token0,
+            token1,
+            amount,
+            0,
+            0,
+            msg.sender,
+            block.timestamp
+        );
     }
 
     /// @notice Swap ETH for tokenB, and approve router
